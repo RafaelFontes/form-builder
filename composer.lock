@@ -1,0 +1,58 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
+    ],
+    "hash": "a937fcf36c291831eea8811772dd007e",
+    "packages": [
+        {
+            "name": "poste9/sqltools",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/poste9/sqltools.git",
+                "reference": "5f9e6e4fc5c35eccf2ebd99e8ba9cc76418c5666"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/poste9/sqltools/zipball/5f9e6e4fc5c35eccf2ebd99e8ba9cc76418c5666",
+                "reference": "5f9e6e4fc5c35eccf2ebd99e8ba9cc76418c5666",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "SQLTools": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Rafael Lucio",
+                    "email": "poste9@gmail.com"
+                }
+            ],
+            "description": "Utility tools to administrate sql based data bases",
+            "time": "2013-11-18 13:32:49"
+        }
+    ],
+    "packages-dev": [
+
+    ],
+    "aliases": [
+
+    ],
+    "minimum-stability": "stable",
+    "stability-flags": {
+        "poste9/sqltools": 20
+    },
+    "platform": {
+        "php": ">=5.3.0"
+    },
+    "platform-dev": [
+
+    ]
+}

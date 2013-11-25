@@ -1,0 +1,20 @@
+{
+    "name": "poste9/form-builder",
+    "description": "JSON Based Form builder",
+    "authors": [
+        {
+            "name": "Rafael Lucio",
+            "email": "poste9@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "php" : ">=5.3.0",
+        "poste9/sqltools": "dev-master"
+    },
+    "autoload": {
+        "psr-0" : {
+            "FormBuilder" : "src/"
+        }
+    }
+}
