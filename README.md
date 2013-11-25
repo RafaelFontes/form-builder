@@ -1,4 +1,4 @@
-sqltools
+formbuilder
 ========
 
-Utility tools to administrate sql based data bases
+Form builder (json -> SQL -> html)
