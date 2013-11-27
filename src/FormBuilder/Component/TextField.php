@@ -8,13 +8,13 @@ class TextField extends Component {
     protected $type = "VARCHAR";
 
     /**
-     * @param \stdClass $json
+     * @param array $data
      * @return string
      */
-    public function toHtmlField(\stdClass $json = null)
+    public function toHtmlField(array $data = null)
     {
         $html =
-            '<div class="form-control">
+            '<div class="form-group">
                 <label for="'.$this->name.'" class="label-control">'.$this->properties->label.'</label>';
 
         if ($this->properties->multiLine)
@@ -33,7 +33,11 @@ class TextField extends Component {
                 $html .= 'required';
             }
 
-            $html .='></textarea>';
+            $html .='>';
+            if ($data)
+                $html .= $data[$this->name];
+
+            $html .= '</textarea>';
         }
         else
         {
@@ -47,8 +51,11 @@ class TextField extends Component {
                     ';
             if ($this->properties->required)
             {
-                $html .= 'required';
+                $html .= 'required ';
             }
+
+            if ($data)
+                $html .= 'value="' . $data[$this->name] . '" ';
 
             $html .='/>';
         }
@@ -87,7 +94,7 @@ class TextField extends Component {
                     break;
                 case "id":
                     $this->id = $value;
-                break;
+                    break;
             }
         }
     }

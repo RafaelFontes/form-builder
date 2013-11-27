@@ -16,7 +16,7 @@ interface IComponent {
      * @param \stdClass $json
      * @return mixed
      */
-    public function toHtmlField(\stdClass $json = null);
+    public function toHtmlField(array $json = null);
 
     /**
      * @param \stdClass $json

@@ -31,7 +31,7 @@ abstract class Component implements IComponent {
      * @return void
      */
     abstract public function loadProperties(\stdClass $properties);
-    abstract public function toHtmlField(\stdClass $json = null);
+    abstract public function toHtmlField(array $json = null);
 
     public function toTableField(\stdClass $json = null)
     {

@@ -78,7 +78,7 @@ class FormBuilder {
         return $fields;
     }
 
-    public function getHtml()
+    public function getHtml(array $data = null)
     {
         $html = "";
         /**
@@ -86,7 +86,7 @@ class FormBuilder {
          */
         foreach($this->components as $component)
         {
-            $html .= $component->toHtmlField() . "\n";
+            $html .= $component->toHtmlField($data) . "\n";
         }
 
         return $html;
@@ -96,10 +96,10 @@ class FormBuilder {
     {
 
         $stmt = SQLTools::getConnection()->prepare(
-           "SELECT COUNT(*) total
-            FROM information_schema.tables
-            WHERE table_schema = :db
-            AND table_name = :table;");
+            "SELECT COUNT(*) total
+             FROM information_schema.tables
+             WHERE table_schema = :db
+             AND table_name = :table;");
 
         $stmt->execute(array(
             "db" => $dbName,
