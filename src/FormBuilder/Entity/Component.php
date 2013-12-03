@@ -20,13 +20,11 @@ abstract class Component implements IComponent {
     protected $nullable=true;
     protected $key=false;
     protected $id;
-    protected $html;
+    protected $phtml;
     /**
      * @var \stdClass $properties
      */
     protected $properties;
-
-
 
 
     /**
@@ -38,25 +36,25 @@ abstract class Component implements IComponent {
 
     public function setTemplate($phtml)
     {
-        if ($phtml && is_file($phtml))
-        {
-            ob_start(null, null, true);
-            include ($phtml);
-            $this->html = ob_get_contents();
-            ob_end_clean();
-        }
+        $this->phtml = $phtml;
     }
 
     public function getHtml(array $data = null)
     {
-        if (!$this->html)
+
+        if ($this->phtml && is_file($this->phtml))
         {
-            return $this->toHtmlField($data);
+            ob_start();
+            $this->data = $data;
+            include ($this->phtml);
+            $ret = ob_get_clean();
         }
         else
         {
-            return $this->html;
+            $ret = $this->toHtmlField($data);
         }
+
+        return $ret;
     }
 
 

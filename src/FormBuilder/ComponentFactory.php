@@ -24,10 +24,10 @@ class ComponentFactory implements IComponentFactory {
         switch($type)
         {
             case self::TEXT_FIELD :
-                return new TextField(self::$templates[$type]);
+                return new TextField();
 
             case self::IMAGE_UPLOADER :
-                return new ImageLoader(self::$templates[$type]);
+                return new ImageLoader();
         }
 
         return null;

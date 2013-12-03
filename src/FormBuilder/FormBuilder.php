@@ -34,11 +34,15 @@ class FormBuilder {
      */
     private $components = array();
 
-    public function __construct(SQLConfig $config, array $templates = null)
+    public function __construct(SQLConfig $config)
     {
         SQLTools::configure($config);
-        $this->templateFiles = ($templates) ? $templates : array();
+    }
 
+    public function setTemplateFile($fieldType, $file)
+    {
+        $this->templateFiles[$fieldType] = $file;
+        return $this;
     }
 
 
@@ -58,7 +62,10 @@ class FormBuilder {
 
             $cmp->loadProperties($component->properties);
 
-            $cmp->setTemplate($this->templateFiles[$component->type]);
+            if (!empty($this->templateFiles[$component->type]))
+            {
+                $cmp->setTemplate($this->templateFiles[$component->type]);
+            }
 
             $this->components[] = $cmp;
         }
