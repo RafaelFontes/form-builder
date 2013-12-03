@@ -16,7 +16,7 @@ interface IComponent {
      * @param \stdClass $json
      * @return mixed
      */
-    public function toHtmlField(array $json = null);
+    public function getHtml(array $json = null);
 
     /**
      * @param \stdClass $json
@@ -26,4 +26,5 @@ interface IComponent {
 
     public function getId();
     public function getName();
+    public function setTemplate($phtml);
 } 

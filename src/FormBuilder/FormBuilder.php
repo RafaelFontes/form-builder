@@ -27,14 +27,17 @@ class FormBuilder {
 
     static public $autoAddPrimaryKey=false;
 
+    private $templateFiles = array();
+
     /**
      * @var array
      */
     private $components = array();
 
-    public function __construct(SQLConfig $config)
+    public function __construct(SQLConfig $config, array $templates = null)
     {
         SQLTools::configure($config);
+        $this->templateFiles = ($templates) ? $templates : array();
 
     }
 
@@ -54,6 +57,8 @@ class FormBuilder {
             $cmp = $this->factory->getComponent($component->type);
 
             $cmp->loadProperties($component->properties);
+
+            $cmp->setTemplate($this->templateFiles[$component->type]);
 
             $this->components[] = $cmp;
         }
@@ -86,7 +91,7 @@ class FormBuilder {
          */
         foreach($this->components as $component)
         {
-            $html .= $component->toHtmlField($data) . "\n";
+            $html .= $component->getHtml($data) . "\n";
         }
 
         return $html;

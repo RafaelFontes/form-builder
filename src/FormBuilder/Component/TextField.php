@@ -5,65 +5,10 @@ namespace FormBuilder\Component;
 use FormBuilder\Entity\Component;
 
 class TextField extends Component {
+
+    protected $length = 150;
     protected $type = "VARCHAR";
-
-    /**
-     * @param array $data
-     * @return string
-     */
-    public function toHtmlField(array $data = null)
-    {
-        $html =
-            '<div class="form-group">
-                <label for="'.$this->name.'" class="label-control">'.$this->properties->label.'</label>';
-
-        if ($this->properties->multiLine)
-        {
-            $html .=
-                '<textarea
-                    id="'.$this->name.'"
-                    name="'.$this->name.'"
-                    class="'.$this->properties->classes.'"
-                    maxlength="'.$this->length.'"
-                    rows="'.$this->properties->rows.'"
-                    placeholder="'.$this->properties->placeholder.'"
-                    ';
-            if ($this->properties->required)
-            {
-                $html .= 'required';
-            }
-
-            $html .='>';
-            if ($data)
-                $html .= $data[$this->name];
-
-            $html .= '</textarea>';
-        }
-        else
-        {
-            $html .=
-                '<input type="text"
-                    id="'.$this->name.'"
-                    name="'.$this->name.'"
-                    class="'.$this->properties->classes.'"
-                    maxlength="'.$this->length.'"
-                    placeholder="'.$this->properties->placeholder.'"
-                    ';
-            if ($this->properties->required)
-            {
-                $html .= 'required ';
-            }
-
-            if ($data)
-                $html .= 'value="' . $data[$this->name] . '" ';
-
-            $html .='/>';
-        }
-
-        $html .= '</div>';
-
-        return $html;
-    }
+    protected $label = "Text:";
 
     /**
      * @param array $properties
@@ -95,7 +40,28 @@ class TextField extends Component {
                 case "id":
                     $this->id = $value;
                     break;
+                case "label":
+                    $this->label = $value;
+                    break;
             }
         }
+    }
+
+    /**
+     * @param array $data
+     * @return string
+     */
+    public function toHtmlField(array $data = null)
+    {
+        $html = '<div><label>'.$this->label.'</label><input type="text" id="'.$this->name.'" name="'.$this->name.'" ';
+
+        if (!empty($data))
+        {
+            $html .= 'value="'.$data[$this->name].'"';
+        }
+
+        $html .= "/></div>";
+
+        return $html;
     }
 }

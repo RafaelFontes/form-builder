@@ -20,10 +20,13 @@ abstract class Component implements IComponent {
     protected $nullable=true;
     protected $key=false;
     protected $id;
+    protected $html;
     /**
      * @var \stdClass $properties
      */
     protected $properties;
+
+
 
 
     /**
@@ -31,7 +34,31 @@ abstract class Component implements IComponent {
      * @return void
      */
     abstract public function loadProperties(\stdClass $properties);
-    abstract public function toHtmlField(array $json = null);
+    abstract public function toHtmlField(array $data);
+
+    public function setTemplate($phtml)
+    {
+        if ($phtml && is_file($phtml))
+        {
+            ob_start(null, null, true);
+            include ($phtml);
+            $this->html = ob_get_contents();
+            ob_end_clean();
+        }
+    }
+
+    public function getHtml(array $data = null)
+    {
+        if (!$this->html)
+        {
+            return $this->toHtmlField($data);
+        }
+        else
+        {
+            return $this->html;
+        }
+    }
+
 
     public function toTableField(\stdClass $json = null)
     {
