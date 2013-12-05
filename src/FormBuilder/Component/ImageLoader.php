@@ -6,9 +6,9 @@ use FormBuilder\Entity\Component;
 
 class ImageLoader extends Component {
 
-    protected $length = 50;
-    protected $type   = "VARCHAR";
+    protected $type   = "int";
     protected $label  = "Image";
+    protected $name   = "fileId";
 
     /**
      * @param \stdClass $properties
@@ -17,6 +17,7 @@ class ImageLoader extends Component {
     public function loadProperties(\stdClass $properties)
     {
         $this->properties = $properties;
+
         foreach($properties as $name => $value)
         {
             switch($name)

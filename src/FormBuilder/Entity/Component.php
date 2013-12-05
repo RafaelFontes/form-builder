@@ -26,6 +26,13 @@ abstract class Component implements IComponent {
      */
     protected $properties;
 
+    /**
+     * @return \stdClass
+     */
+    public function getProperties()
+    {
+        return $this->properties;
+    }
 
     /**
      * @param \stdClass $properties
@@ -57,6 +64,10 @@ abstract class Component implements IComponent {
         return $ret;
     }
 
+    public function afterCreated()
+    {
+
+    }
 
     public function toTableField(\stdClass $json = null)
     {

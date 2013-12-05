@@ -7,6 +7,7 @@ use FormBuilder\Base\IComponent;
 use FormBuilder\Base\IComponentFactory;
 use SQLTools\Command\AddField;
 use SQLTools\Command\ChangeField;
+use SQLTools\Command\DropField;
 use SQLTools\Entity\Field;
 use SQLTools\SQLConfig;
 use SQLTools\SQLTools;
@@ -30,12 +31,18 @@ class FormBuilder {
     private $templateFiles = array();
 
     /**
+     * @var \Closure
+     */
+    private $onFieldCreate = null;
+
+    /**
      * @var array
      */
     private $components = array();
 
     public function __construct(SQLConfig $config)
     {
+
         SQLTools::configure($config);
     }
 
@@ -104,8 +111,14 @@ class FormBuilder {
         return $html;
     }
 
+    public function setOnFieldCreatedHandler($handler)
+    {
+        $this->onFieldCreate = $handler;
+    }
+
     public function saveForm($dbName)
     {
+
 
         $stmt = SQLTools::getConnection()->prepare(
             "SELECT COUNT(*) total
@@ -124,6 +137,7 @@ class FormBuilder {
             /**
              * @var IComponent $component
              */
+            $columns = array("id");
             foreach($this->components as $component)
             {
                 $stmt = SQLTools::getConnection()->prepare(
@@ -148,13 +162,57 @@ class FormBuilder {
                 {
                     SQLTools::execute(new AddField($this->name, $component->toTableField()));
                 }
+
+                if (!empty($this->onFieldCreate))
+                {
+                    $this->onFieldCreate->__invoke($this, $component);
+                }
+
+                $columns[] = $component->getName();
             }
+
+            $stmt = SQLTools::getConnection()->prepare("SELECT column_name
+                     FROM information_schema.columns
+                     WHERE
+                     table_schema = :db AND
+                     table_name   = :table AND
+                     column_name not in(:columns);");
+
+            $stmt->execute(array(
+                "db" => $dbName,
+                "table" => $this->name,
+                "columns" => implode(",", $columns)
+            ));
+
+
+            $columnsToDelete = $stmt->fetchAll(\PDO::FETCH_OBJ);
+
+            foreach($columnsToDelete as $columnToDelete)
+            {
+                SQLTools::execute(new DropField($this->name, $columnToDelete->column_name));
+            }
+
         }
         else
         {
-            // CREATE
-            SQLTools::create_table($this->name, $this->getTableFields());
-        }
 
+            $fields = $this->getTableFields();
+
+            // CREATE
+            SQLTools::create_table($this->name, $fields);
+
+            if (!empty($this->onFieldCreate))
+            {
+                foreach($fields as $field)
+                {
+                    $this->onFieldCreate->__invoke($this, $field);
+                }
+            }
+        }
+    }
+
+    public function getTableName()
+    {
+        return $this->name;
     }
 }
