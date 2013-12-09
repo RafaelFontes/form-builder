@@ -27,5 +27,4 @@ interface IComponent {
     public function getId();
     public function getName();
     public function setTemplate($phtml);
-    public function afterCreated();
 } 
